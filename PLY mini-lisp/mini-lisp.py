@@ -4,7 +4,7 @@ import cmd
 
 class MiniLisp(cmd.Cmd):     # See https://docs.python.org/2/library/cmd.html
     """
-    MiniLisp evalúa expresiones sencillas con sabor a lisp, 
+    MiniLisp evalúa expresiones sencillas con sabor a lisp,
     más información en http://www.juanjoconti.com.ar
     """
 
@@ -25,11 +25,11 @@ class MiniLisp(cmd.Cmd):     # See https://docs.python.org/2/library/cmd.html
     def do_help(self, args):
         print self.__doc__
 
-    def emptyline(self):    
+    def emptyline(self):
         """Do nothing on empty input line"""
         pass
 
-    def default(self, line):       
+    def default(self, line):
         """Called on an input line when the command prefix is not recognized.
            In that case we execute the line as Python code.
         """
@@ -39,5 +39,6 @@ class MiniLisp(cmd.Cmd):     # See https://docs.python.org/2/library/cmd.html
             print s
 
 if __name__ == '__main__':
-        ml = MiniLisp()
-        ml.cmdloop()     # See https://docs.python.org/2/library/cmd.html
+    ml = MiniLisp()
+    ml.cmdloop()     # See https://docs.python.org/2/library/cmd.html
+

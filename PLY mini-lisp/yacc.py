@@ -1,16 +1,25 @@
 import ply.yacc as yacc
 
+
 # Get the token map from the lexer.  This is required.
 from lex import tokens
 
-DEBUG = False
+DEBUG = True
 
 # Namespace & built-in functions
 
 name = {}
+d = {}
 
-global ast
-ast = []
+
+# Part 2
+def _if(l):
+    if l[0] == True:
+        return l[1]
+    return l[2]
+
+
+name['if'] = _if
 
 def cons(l):
     return [l[0]] + l[1]
@@ -60,15 +69,74 @@ def cond(l):
 name['cond'] = cond
 
 def add(l):
-    return sum(l)
+    sum = 0
+    for i in range(len(l)):
+        if l[i] in d:
+            sum += d[l[i]]
+            # print (sum)
+        elif type(l[i]) is int:
+            sum += l[i]
+    return sum
+
 
 name['+'] = add
 
 def minus(l):
     '''Unary minus'''
-    return -l[0]
+    m = []
+    if len(l) == 1:
+        return -l[0]
+    # binary minus
+    for i in range(len(l)):
+        if l[i] in d:
+            m.append(d[l[i]])
+        else:
+            m.append(l[i])
+    return m[0] - m[1]
 
 name['-'] = minus
+
+
+def multiply(l):
+    m = []
+    for i in range(len(l)):
+        if l[i] in d:
+            m.append(d[l[i]])
+        else:
+            m.append(l[i])
+    product = 1
+    for num in m:
+        product *= num
+    return product
+
+
+name['*'] = multiply
+
+
+def divide(l):
+    m = []
+    for i in range(len(l)):
+        if l[i] in d:
+            m.append(d[l[i]])
+        else:
+            m.append(l[i])
+    quotient = m[0]
+    for item in m[1:]:
+        quotient /= item
+    return quotient
+
+
+name['butts'] = divide
+
+def let(l):
+    d.clear()
+    if len(l) == 1:
+        return l[0][1]
+    return l[len(l) - 1]
+
+
+name['let'] = let
+
 
 def _print(l):
     print lisp_str(l[0])
@@ -81,13 +149,19 @@ def lisp_eval(simb, items):
     if simb in name:
         return call(name[simb], eval_lists(items))
     else:
+        if simb not in d:
+            d[simb] = items[0]
         return [simb] + items
+
+
+# print(lisp_eval(let, ["a",3]))
 
 def call(f, l):
     try:
         return f(eval_lists(l))
     except TypeError:
         return f
+
 
 def eval_lists(l):
     r = []
@@ -140,8 +214,7 @@ def p_exp_call(p):
 
 def p_quoted_list(p):
     'quoted_list : QUOTE list'
-    #p[0] = p[2]
-    p[0] = ["quote"] + [p[2]]
+    p[0] = p[2]
 
 def p_list(p):
     'list : LPAREN items RPAREN'
@@ -179,15 +252,11 @@ def p_item_empty(p):
     'item : empty'
     p[0] = p[1]
 
+
 def p_call(p):
     'call : LPAREN SIMB items RPAREN'
-    global ast
     if DEBUG: print "Calling", p[2], "with", p[3]
-    #if isinstance(p[3], list) and isinstance(p[3][0], list) and p[3][0][0] == "'":
-    #p[3] = [["quote"] + [p[3][0][1:]]]
-    ast = [p[2]] + [i for i in p[3]]
-    p[0] = ast
-    #p[0] = lisp_eval(p[2], p[3])
+    p[0] = lisp_eval(p[2], p[3])
 
 def p_atom_simbol(p):
     'atom : SIMB'
@@ -221,14 +290,24 @@ def p_nil(p):
     'atom : NIL'
     p[0] = None
 
+
+# def p_let(p):
+#    '''let : LPAREN LET LPAREN TEXT NUM RPAREN items RPAREN
+#        | LPAREN LET LPAREN TEXT NUM RPAREN'''
+#    print "Letting", p[4],"=", p[5]
+
+# def p_let_call(p):
+#   'let : call'
+#p[0] = p[1]
+
 # Error rule for syntax errors
 def p_error(p):
     print "Syntax error!! ",p
+
 
 # Build the parser
 # Use this if you want to build the parser using SLR instead of LALR
 # yacc.yacc(method="SLR")
 yacc.yacc()
-
 
 
