@@ -68,6 +68,7 @@ def standard_env():
         'list?':   lambda x: isinstance(x,list),
         'exec':    lambda x: eval(compile(x,'None','single')),
         'map':     map,
+
         'max':     max,
         'min':     min,
         'not':     op.not_,
@@ -143,6 +144,7 @@ def eval(x, env=global_env):
         return Procedure(parms, body, env)
     elif x[0] == 'exec':
         proc = eval(x[0], env)
+        print (proc)
         import re
         exec(proc(re.sub(r"^'|'$", '', x[1])))
         return toReturn

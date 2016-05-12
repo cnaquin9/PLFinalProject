@@ -4,12 +4,12 @@ import ply.yacc as yacc
 # Get the token map from the lexer.  This is required.
 from lex import tokens
 
-DEBUG = True
+DEBUG = False
 
 # Namespace & built-in functions
 
 name = {}
-d = {}
+
 
 
 # Part 2
@@ -69,64 +69,16 @@ def cond(l):
 name['cond'] = cond
 
 def add(l):
-    sum = 0
-    for i in range(len(l)):
-        if l[i] in d:
-            sum += d[l[i]]
-            # print (sum)
-        elif type(l[i]) is int:
-            sum += l[i]
-    return sum
+    return sum(l)
 
 
 name['+'] = add
 
 def minus(l):
-    '''Unary minus'''
-    m = []
-    if len(l) == 1:
-        return -l[0]
-    # binary minus
-    for i in range(len(l)):
-        if l[i] in d:
-            m.append(d[l[i]])
-        else:
-            m.append(l[i])
-    return m[0] - m[1]
+    #Unary minus
+    return -l[0]
 
 name['-'] = minus
-
-
-def multiply(l):
-    m = []
-    for i in range(len(l)):
-        if l[i] in d:
-            m.append(d[l[i]])
-        else:
-            m.append(l[i])
-    product = 1
-    for num in m:
-        product *= num
-    return product
-
-
-name['*'] = multiply
-
-
-def divide(l):
-    m = []
-    for i in range(len(l)):
-        if l[i] in d:
-            m.append(d[l[i]])
-        else:
-            m.append(l[i])
-    quotient = m[0]
-    for item in m[1:]:
-        quotient /= item
-    return quotient
-
-
-name['butts'] = divide
 
 def let(l):
     d.clear()
@@ -149,9 +101,8 @@ def lisp_eval(simb, items):
     if simb in name:
         return call(name[simb], eval_lists(items))
     else:
-        if simb not in d:
-            d[simb] = items[0]
         return [simb] + items
+    #return [simb] + items
 
 
 # print(lisp_eval(let, ["a",3]))
@@ -255,8 +206,12 @@ def p_item_empty(p):
 
 def p_call(p):
     'call : LPAREN SIMB items RPAREN'
+    global ast
     if DEBUG: print "Calling", p[2], "with", p[3]
-    p[0] = lisp_eval(p[2], p[3])
+    ast = [p[2]] + [i for i in p[3]]
+    #print "AST is:", ast
+    p[0] = ast
+    #p[0] = lisp_eval(p[2], p[3])
 
 def p_atom_simbol(p):
     'atom : SIMB'

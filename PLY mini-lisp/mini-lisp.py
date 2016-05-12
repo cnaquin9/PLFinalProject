@@ -11,7 +11,7 @@ class MiniLisp(cmd.Cmd):     # See https://docs.python.org/2/library/cmd.html
     def __init__(self):
         cmd.Cmd.__init__(self)
         self.prompt = "ml> "
-        self.intro  = "Bienvenido a MiniLisp"
+        self.intro  = "Welcome to Carley and Sam's Final Project!"
 
     def do_exit(self, args):
         """Exits from the console"""
@@ -34,9 +34,16 @@ class MiniLisp(cmd.Cmd):     # See https://docs.python.org/2/library/cmd.html
            In that case we execute the line as Python code.
         """
         result = yacc.parse(line)
+        print "AST is: ", result
+        import lis
+        r =  lis.eval(result)
+        if r is not None: print r
+        '''
+        result = yacc.parse(line)
         s = lisp_str(result)
         if s != 'nil':
             print s
+        '''
 
 if __name__ == '__main__':
     ml = MiniLisp()
