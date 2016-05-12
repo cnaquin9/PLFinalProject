@@ -34,11 +34,12 @@ class MiniLisp(cmd.Cmd):     # See https://docs.python.org/2/library/cmd.html
            In that case we execute the line as Python code.
         """
         result = yacc.parse(line)
-        print "AST is: ", result
+        if result is not None: print "AST is: ", result
         import lis
         r =  lis.eval(result)
         if r is not None:
-            print r
+            if r is not line:
+                print r
 
 
 if __name__ == '__main__':

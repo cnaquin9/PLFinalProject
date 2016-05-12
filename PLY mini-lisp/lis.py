@@ -144,7 +144,6 @@ def eval(x, env=global_env):
         return Procedure(parms, body, env)
     elif x[0] == 'exec':
         proc = eval(x[0], env)
-        print (proc)
         import re
         exec(proc(re.sub(r"^'|'$", '', x[1])))
         return toReturn

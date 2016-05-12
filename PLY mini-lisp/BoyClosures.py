@@ -27,7 +27,9 @@ class funnyBoy(object):
     def f(self):
         data = {
             "type" : "funny",
-            "$type" : lambda x : data.update({"type", x})
+            "$type" : lambda x : data.update({"type", x}),
+            "major" : "RTF",
+            "$major" : lambda x : data.update({"major", x})
         }
 
         def cf(self, d):
@@ -42,7 +44,9 @@ class boringBoy(object):
     def f(self):
         data = {
             "type" : "boring",
-            "$type" : lambda x : data.update({"type", x})
+            "$type" : lambda x : data.update({"type", x}),
+            "major" : "history",
+            "$major" : lambda x : data.update({"major", x})
         }
 
         def cf(self, d):
@@ -57,7 +61,9 @@ class smartBoy(object):
     def f(self):
         data = {
             "type" : "smart",
-            "$type" : lambda x : data.update({"type", x})
+            "$type" : lambda x : data.update({"type", x}),
+            "major" : "engineering",
+            "$major" : lambda x : data.update({"major", x})
         }
 
         def cf(self, d):
@@ -72,7 +78,9 @@ class stupidBoy(object):
     def f(self):
         data = {
             "type" : "stupid",
-            "$type" : lambda x : data.update({"type", x})
+            "$type" : lambda x : data.update({"type", x}),
+            "major" : "liberal arts",
+            "$major" : lambda x : data.update({"major", x})
         }
 
         def cf(self, d):
@@ -83,7 +91,24 @@ class stupidBoy(object):
         return cf
     run = f(1)
 
+def createBoy():
+    dude = boy()
+    dude.run('$name')('Mike')
+    profile(dude)
+    return dude
+
+def profile(self):
+    print
+    print "Here is"+self.run('name')+":"
+    print 'Name:', self.run('age')
+    print 'First impression:' + boy.run('type')
+    print 'Height:', self.run('height')
+    print 'Eyes:' + self.run('eyeColor')
+    print 'Major:' + self.run('major')
+
 boy1 = funnyBoy()
 boy2 = boringBoy()
 boy3 = smartBoy()
 boy4 = stupidBoy()
+
+createBoy()

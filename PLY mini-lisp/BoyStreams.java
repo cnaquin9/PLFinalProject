@@ -11,7 +11,7 @@ public class BoyStreams{
         Boy b3 = new Boy("Steven", 19, "Smart", "6'2", "Blue", "Computer Science");
         Boy b4 = new Boy("Aaron", 21, "Boring", "6'1", "Hazel", "Economics");
         Boy b5 = new Boy("Cody", 20, "Stupid", "5'9", "Blue", "Pre-law");
-        boy.add(b1); boy.add(b2); boys.add(b3); boys.add(b4); boys.add(b5);
+        potentialLoveInterests.add(b1); potentialLoveInterests.add(b2); potentialLoveInterests.add(b3); potentialLoveInterests.add(b4); potentialLoveInterests.add(b5);
 
         System.out.println("Select * from potentialLoveInterests: \n");
         potentialLoveInterests.stream()
