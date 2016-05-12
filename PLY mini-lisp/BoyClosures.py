@@ -1,17 +1,17 @@
 class boy(object):
     def f(self):
         data = {
-            "name" : "firstname",
+            "name" : "Jimbo",
             "$name" : lambda x : data.update({"name": x}),
-            "age" : 0,
+            "age" : 19,
             "$age" : lambda x : data.update({"age": x}),
-            "type" : "funny",
+            "type" : "Funny",
             "$type" : lambda x : data.update({"type": x}),
             "height" : "6'0",
             "$height" : lambda x : data.update({"height": x}),
-            "eyeColor" : "blue",
+            "eyeColor" : "Blue",
             "$eyeColor" : lambda x : data.update({"eyeColor": x}),
-            "major" : "undecided",
+            "major" : "Undecided",
             "$major" : lambda x : data.update({"major": x})
         }
 
@@ -23,7 +23,7 @@ class boy(object):
         return cf
     run = f(1)
 
-class funnyBoy(object):
+class funnyBoy(boy):
     def f(self):
         data = {
             "type" : "funny",
@@ -40,7 +40,7 @@ class funnyBoy(object):
         return cf
     run = f(1)
 
-class boringBoy(object):
+class boringBoy(boy):
     def f(self):
         data = {
             "type" : "boring",
@@ -57,7 +57,7 @@ class boringBoy(object):
         return cf
     run = f(1)
 
-class smartBoy(object):
+class smartBoy(boy):
     def f(self):
         data = {
             "type" : "smart",
@@ -74,7 +74,7 @@ class smartBoy(object):
         return cf
     run = f(1)
 
-class stupidBoy(object):
+class stupidBoy(boy):
     def f(self):
         data = {
             "type" : "stupid",
@@ -91,24 +91,41 @@ class stupidBoy(object):
         return cf
     run = f(1)
 
-def createBoy():
-    dude = boy()
-    dude.run('$name')('Mike')
-    profile(dude)
-    return dude
+
+def makeBoyfriend():
+    boy = funnyBoy()
+    boy.run('$name')('Mark')
+    boy.run('$age')(21)
+    boy.run('$height')('6 foot 2')
+    boy.run('$eyeColor')('Green, like emeralds or something')
+    print ("")
+    print ("QTP2T <3:")
+    profile(boy)
+    print ("")
 
 def profile(self):
-    print
-    print "Here is"+self.run('name')+":"
-    print 'Name:', self.run('age')
-    print 'First impression:' + boy.run('type')
+    print 'Name: ', self.run('name')
+    print 'Age: ', self.run('age')
+    print 'First impression: ' + self.run('type')
     print 'Height:', self.run('height')
-    print 'Eyes:' + self.run('eyeColor')
-    print 'Major:' + self.run('major')
+    print 'Eyes: ' + self.run('eyeColor')
+    print 'Major: ' + self.run('major')
 
-boy1 = funnyBoy()
-boy2 = boringBoy()
-boy3 = smartBoy()
-boy4 = stupidBoy()
+def makeFriends():
+    b1,b2,b3 = boringBoy(), smartBoy(), stupidBoy()
+    a = [b1, b2, b3]
+    print ("")
+    print "These guys aren't boyfriend material:"
+    names = ["Tom", "Jerry", "Eugene"]
+    ages = ["19", "30", "2...6?"]
+    ec = ["Black like his soul", "Not good", "Red"]
+    heights = ['too short', 'too tall', 'just right but still not good for some reason']
+    for i in range(len(a)):
+        a[i].run('$name')(names[i])
+        a[i].run('$age')(ages[i])
+        a[i].run('$height')(heights[i])
+        a[i].run('$eyeColor')(ec[i])
+        profile(a[i])
+        print ("")
 
-createBoy()
+

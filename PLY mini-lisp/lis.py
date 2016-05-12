@@ -54,29 +54,13 @@ def standard_env():
     env.update({
         '+':op.add, '-':op.sub, '*':op.mul, '/':op.div,
         '>':op.gt, '<':op.lt, '>=':op.ge, '<=':op.le, '=':op.eq,
-        'abs':     abs,
-        'append':  op.add,
-        'apply':   apply,
-        'begin':   lambda *x: x[-1],
-        'car':     lambda x: x[0],
-        'cdr':     lambda x: x[1:],
-        'cons':    lambda x,y: [x] + y,
-        'eq?':     op.is_,
-        'equal?':  op.eq,
-        'length':  len,
         'list':    lambda *x: list(x),
         'list?':   lambda x: isinstance(x,list),
         'exec':    lambda x: eval(compile(x,'None','single')),
         'map':     map,
-
-        'max':     max,
-        'min':     min,
-        'not':     op.not_,
-        'null?':   lambda x: x == [],
-        'number?': lambda x: isinstance(x, Number),
-        'procedure?': callable,
-        'round':   round,
-        'symbol?': lambda x: isinstance(x, Symbol),
+        'map+':    lambda x,y : [num+y for num in x],
+        'map-':    lambda x,y: [y-num for num in x],
+        'map*':    lambda x,y: [y*num for num in x]
     })
     return env
 
@@ -147,6 +131,10 @@ def eval(x, env=global_env):
         import re
         exec(proc(re.sub(r"^'|'$", '', x[1])))
         return toReturn
+    elif x[0] == 'map+':
+        proc = eval(x[0], env)
+        args = [x[1][1:-1]], eval(x[2], env)
+        return proc(*args)
     else:                          # (proc arg...)
         proc = eval(x[0], env)
         args = [eval(exp, env) for exp in x[1:]]
