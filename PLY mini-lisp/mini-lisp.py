@@ -37,13 +37,9 @@ class MiniLisp(cmd.Cmd):     # See https://docs.python.org/2/library/cmd.html
         print "AST is: ", result
         import lis
         r =  lis.eval(result)
-        if r is not None: print r
-        '''
-        result = yacc.parse(line)
-        s = lisp_str(result)
-        if s != 'nil':
-            print s
-        '''
+        if r is not None:
+            print r
+
 
 if __name__ == '__main__':
     ml = MiniLisp()

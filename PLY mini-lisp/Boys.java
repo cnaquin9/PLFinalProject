@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Carley on 5/10/2016.
  */
-public class Boys {
+public class Boy {
     private String name;
     private int age;
     private String type;
@@ -13,7 +13,7 @@ public class Boys {
     private String eyeColor;
     private String major;
 
-    public Boys(String name, int age, String type, String height, String eyeColor, String major) {
+    public Boy(String name, int age, String type, String height, String eyeColor, String major) {
         this.name = name;
         this.age = age;
         this.type = type;
