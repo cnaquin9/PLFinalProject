@@ -1,0 +1,10 @@
+CLOSURES
+(exec 'import BoyClosures; BoyClosures.makeBoyfriend()')
+
+(exec 'import BoyClosures; BoyClosures.makeFriends()’)
+
+STREAM OPERATIONS
+(exec 'import BoyStreams; toReturn = BoyStreams.runBoys()')
+
+LAMBDA AND LIST COMPS
+(mapp 'from listcomp import s_emp; toReturn = [[i[6]] for i in s_emp[:-1]]')

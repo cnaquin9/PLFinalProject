@@ -58,9 +58,7 @@ def standard_env():
         'list?':   lambda x: isinstance(x,list),
         'exec':    lambda x: eval(compile(x,'None','single')),
         'map':     map,
-        'map+':    lambda x,y : [num+y for num in x],
-        'map-':    lambda x,y: [y-num for num in x],
-        'map*':    lambda x,y: [y*num for num in x]
+        'mapp':    lambda x,y:[eval(compile(x,'None','single'))(i) for i in y]
     })
     return env
 
@@ -131,9 +129,9 @@ def eval(x, env=global_env):
         import re
         exec(proc(re.sub(r"^'|'$", '', x[1])))
         return toReturn
-    elif x[0] == 'map+':
+    elif x[0] == 'mapp':
         proc = eval(x[0], env)
-        args = [x[1][1:-1]], eval(x[2], env)
+        args = [x[1][1:-1], eval(x[2], env)]
         return proc(*args)
     else:                          # (proc arg...)
         proc = eval(x[0], env)
