@@ -1,0 +1,154 @@
+Removed Code from yacc.py:
+
+def _if(l):
+    if l[0] == True:
+        return l[1]
+    return l[2]
+
+
+name['if'] = _if
+
+def cons(l):
+    return [l[0]] + l[1]
+
+name['cons'] = cons
+
+def concat(l):
+    return l[0] + l[1]
+
+name['concat'] = concat
+
+def listar(l):
+    return l
+
+name['list'] = listar
+
+def car(l):
+    return l[0][0]
+
+name['car'] = car
+
+def cdr(l):
+    return l[0][1:]
+
+name['cdr'] = cdr
+
+def eq(l):
+    return l[0] == l[1]
+
+name['eq'] = eq
+name['='] = eq
+
+def _and(l):
+    return not False in l
+
+name['and'] = _and
+
+def _or(l):
+    return True in l
+
+name['or'] = _or
+
+def cond(l):
+    if l[0]:
+        return l[1]
+
+name['cond'] = cond
+
+def add(l):
+    sum = 0
+    for i in range(len(l)):
+        if l[i] in d:
+            sum += d[l[i]]
+            # print (sum)
+        elif type(l[i]) is int:
+            sum += l[i]
+    return sum
+
+
+name['+'] = add
+
+def minus(l):
+    '''Unary minus'''
+    m = []
+    if len(l) == 1:
+        return -l[0]
+    # binary minus
+    for i in range(len(l)):
+        if l[i] in d:
+            m.append(d[l[i]])
+        else:
+            m.append(l[i])
+    return m[0] - m[1]
+
+name['-'] = minus
+
+
+def multiply(l):
+    m = []
+    for i in range(len(l)):
+        if l[i] in d:
+            m.append(d[l[i]])
+        else:
+            m.append(l[i])
+    product = 1
+    for num in m:
+        product *= num
+    return product
+
+
+name['*'] = multiply
+
+
+def divide(l):
+    m = []
+    for i in range(len(l)):
+        if l[i] in d:
+            m.append(d[l[i]])
+        else:
+            m.append(l[i])
+    quotient = m[0]
+    for item in m[1:]:
+        quotient /= item
+    return quotient
+
+
+name['butts'] = divide
+
+def let(l):
+    d.clear()
+    if len(l) == 1:
+        return l[0][1]
+    return l[len(l) - 1]
+
+
+name['let'] = let
+
+
+def _print(l):
+    print lisp_str(l[0])
+
+name['print'] = _print
+
+#################
+#################
+
+Removed code from lis.py:
+
+'abs':     abs,
+        'append':  op.add,
+        'apply':   apply,
+        'begin':   lambda *x: x[-1],
+        'car':     lambda x: x[0],
+        'cdr':     lambda x: x[1:],
+        'cons':    lambda x,y: [x] + y,
+        'eq?':     op.is_,
+        'equal?':  op.eq,
+        'max':     max,
+        'min':     min,
+        'not':     op.not_,
+        'null?':   lambda x: x == [],
+        'number?': lambda x: isinstance(x, Number),
+        'procedure?': callable,
+        'round':   round,
+        'symbol?': lambda x: isinstance(x, Symbol),
